@@ -38,10 +38,13 @@ public class PatientController {
         return ResponseEntity.ok(createdPatient);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Patient> updatePatient(@PathVariable String id, @RequestBody Patient updatedPatient) {
+    @PutMapping
+    public ResponseEntity<Patient> updatePatient(@RequestBody Patient updatedPatient) {
+        /*if (updatedPatient.getId() == null) {
+            throw new IllegalArgumentException("Patient not found.");
+        }*/
         try {
-            Patient updated = patientService.updatePatient(id, updatedPatient);
+            Patient updated = patientService.updatePatient(updatedPatient);
             return ResponseEntity.ok(updated);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

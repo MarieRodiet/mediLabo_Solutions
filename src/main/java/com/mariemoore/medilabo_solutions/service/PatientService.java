@@ -30,12 +30,12 @@ public class PatientService {
         return patientRepository.save(patient);
     }
 
-    public Patient updatePatient(String id, Patient updatedPatient) {
-        if (patientRepository.existsById(id)) {
-            updatedPatient.setId(id);
+    public Patient updatePatient(Patient updatedPatient) {
+        if (patientRepository.existsById(updatedPatient.getId())) {
+            updatedPatient.setId(updatedPatient.getId());
             return patientRepository.save(updatedPatient);
         } else {
-            throw new IllegalArgumentException("Patient with ID " + id + " not found.");
+            throw new IllegalArgumentException("Patient not found.");
         }
     }
 

@@ -1,6 +1,7 @@
-package com.mariemoore.medilabo_solutions.repository;
+package com.mariemoore.repository;
 
-import com.mariemoore.medilabo_solutions.model.Patient;
+
+import com.mariemoore.model.Patient;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

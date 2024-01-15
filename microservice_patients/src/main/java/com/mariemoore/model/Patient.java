@@ -1,4 +1,4 @@
-package com.mariemoore.medilabo_solutions.model;
+package com.mariemoore.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;

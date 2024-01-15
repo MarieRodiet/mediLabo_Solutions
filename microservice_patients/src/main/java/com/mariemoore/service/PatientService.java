@@ -1,7 +1,8 @@
-package com.mariemoore.medilabo_solutions.service;
+package com.mariemoore.service;
 
-import com.mariemoore.medilabo_solutions.model.Patient;
-import com.mariemoore.medilabo_solutions.repository.PatientRepository;
+
+import com.mariemoore.model.Patient;
+import com.mariemoore.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

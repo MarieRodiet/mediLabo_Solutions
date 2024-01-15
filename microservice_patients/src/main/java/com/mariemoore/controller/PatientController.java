@@ -1,13 +1,14 @@
-package com.mariemoore.medilabo_solutions.controller;
+package com.mariemoore.controller;
 
-import com.mariemoore.medilabo_solutions.model.Patient;
-import com.mariemoore.medilabo_solutions.service.PatientService;
+import com.mariemoore.model.Patient;
+import com.mariemoore.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/patients")

@@ -60,9 +60,11 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<mainClass>com.mariemoore.medilabo_solutions.MedilaboSolutionsApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>

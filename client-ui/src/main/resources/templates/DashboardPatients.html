@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Patients Dashboard</title>
+</head>
+<body>
+
+<h2>Patients Dashboard</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <!-- Add more columns as needed -->
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the list of patients and display them in the table -->
+    <tr th:each="patient : ${patients}">
+        <td th:text="${patient.id}"></td>
+        <td th:text="${patient.firstname}"></td>
+        <td th:text="${patient.lastname}"></td>
+        <!-- Add more columns as needed -->
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

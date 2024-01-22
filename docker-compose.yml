@@ -15,14 +15,14 @@ services:
       - internal
 
 
-  springboot-app:
+  patientsm:
     build:
-      context: .
+      context: ./microservice-patients
       dockerfile: Dockerfile
-    container_name: springboot-app
+    container_name: patientsm
     restart: on-failure
     ports:
-      - "8080:8080"
+      - "9001:9001"
     depends_on:
       - my-mongodb
     networks:

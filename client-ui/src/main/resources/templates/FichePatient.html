@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Details</title>
+</head>
+<body>
+
+<h2>Patient Details</h2>
+
+<div>
+    <p><strong>ID:</strong> <span th:text="${patient.id}"></span></p>
+    <p><strong>First Name:</strong> <span th:text="${patient.firstname}"></span></p>
+    <p><strong>Last Name:</strong> <span th:text="${patient.lastname}"></span></p>
+    <p><strong>Birthdate:</strong> <span th:text="${patient.birthdate}"></span></p>
+    <p><strong>Gender:</strong> <span th:text="${patient.gender}"></span></p>
+    <p><strong>Address:</strong>
+    <ul>
+        <!-- Iterate over the list of addresses and display them -->
+        <li th:each="address : ${patient.address}" th:text="${address}"></li>
+    </ul>
+    </p>
+    <p><strong>Phone Number:</strong> <span th:text="${patient.phone_number}"></span></p>
+</div>
+
+</body>
+</html>

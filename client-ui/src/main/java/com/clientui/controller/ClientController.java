@@ -16,14 +16,14 @@ public class ClientController {
     private MicroservicePatientsProxy PatientsProxy;
 
 
-    @RequestMapping("/")
+    @RequestMapping("/patients")
     public String patientDashboard(Model model){
         List<PatientBean> patients =  PatientsProxy.listeDesPatients();
         model.addAttribute("patients", patients);
         return "DashboardPatients";
     }
 
-    @RequestMapping("/details-patient/{id}")
+    @RequestMapping("/patients/{id}")
 
     public String fichePatient(@PathVariable int id, Model model){
         PatientBean patient = PatientsProxy.recupererUnPatient(id);

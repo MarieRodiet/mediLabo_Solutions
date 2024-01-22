@@ -1,6 +1,19 @@
 version: "3.8"
 
 services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    restart: on-failure
+    ports:
+      - "9002:9002"
+    depends_on:
+      - patientsm
+    networks:
+      - internal
+
   my-mongodb:
     image: mongo:latest
     container_name: mongo

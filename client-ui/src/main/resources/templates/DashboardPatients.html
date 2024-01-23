@@ -1,65 +1,48 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html  lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Patients Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        table {
-            background-color: #fff;
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 
 <body class="container">
-
-<h2>Patients Dashboard</h2>
-
-<table class="striped">
+    <nav>
+        <div class="nav-wrapper teal darken-2">
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="">Patients</a></li>
+                <li><a href="">Logout</a></li>
+            </ul>
+            <a href="#" class="brand-logo left">Medilabo Solutions</a>
+        </div>
+    </nav>
+    <h2 class="teal-text darken-4-text center-align">Patients Dashboard</h2>
+    <a class="waves-effect waves-light btn">Add new Patient</a>
+    <table class="highlight">
     <thead>
     <tr>
         <th>ID</th>
         <th>First Name</th>
         <th>Last Name</th>
-        <!-- Add more columns as needed -->
+        <th>Birthdate</th>
+        <th>Gender</th>
+        <th>Phone Number</th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
-    <!-- Iterate over the list of patients and display them in the table -->
     <tr th:each="patient : ${patients}">
         <td th:text="${patient.id}"></td>
         <td th:text="${patient.firstname}"></td>
         <td th:text="${patient.lastname}"></td>
-        <!-- Add more columns as needed -->
+        <th th:text="${patient.birthdate}"></th>
+        <th th:text="${patient.gender}"></th>
+        <th th:text="${patient.phone_number}"></th>
+        <td><i class="material-icons blue-text darken-2-text">edit</i></td>
+        <td><i class="material-icons red-text darken-4-text">delete</i></td>
     </tr>
     </tbody>
 </table>

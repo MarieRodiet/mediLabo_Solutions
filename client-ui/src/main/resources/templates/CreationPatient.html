@@ -45,12 +45,13 @@
       </div>
 
       <div class="input-field">
-        <label for="gender">Gender:</label>
         <select id="gender" name="gender" required th:field="${patient.gender}">
+          <option value="" selected>Gender</option>
           <option value="MALE">Male</option>
           <option value="FEMALE">Female</option>
           <option value="OTHER">Other</option>
         </select>
+        <label for="gender">Gender:</label>
       </div>
 
       <button type="submit" class="btn">Save</button>

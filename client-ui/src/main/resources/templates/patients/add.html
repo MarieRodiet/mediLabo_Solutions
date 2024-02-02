@@ -28,7 +28,7 @@
       </nav>
       <h2 class="teal-text darken-4-text center-align">Add New Patient</h2>
 
-    <form th:action="@{/savePatient}" method="post">
+    <form th:action="@{/patients/validate}" method="post">
       <div class="input-field">
         <label for="firstname">First Name:</label>
         <input type="text" id="firstname" name="firstname" required th:field="${patient.firstname}">

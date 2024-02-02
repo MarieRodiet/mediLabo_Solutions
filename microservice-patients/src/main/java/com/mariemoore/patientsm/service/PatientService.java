@@ -40,7 +40,11 @@ public class PatientService {
     }
 
     public void deletePatient(String id) {
-        patientRepository.deleteById(id);
+        if (patientRepository.existsById(id)) {
+            patientRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Patient not found.");
+        }
     }
 }
 

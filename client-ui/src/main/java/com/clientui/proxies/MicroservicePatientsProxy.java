@@ -3,8 +3,8 @@ package com.clientui.proxies;
 import com.clientui.beans.PatientBean;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -12,9 +12,17 @@ import java.util.List;
 @Component
 public interface MicroservicePatientsProxy {
     @GetMapping(value = "/api/patients")
-    List<PatientBean> listeDesPatients();
+    List<PatientBean> getAllPatients();
 
     @GetMapping( value = "/api/patients/{id}")
-    PatientBean recupererUnPatient(@PathVariable("id") int id);
+    PatientBean getPatient(@PathVariable("id") int id);
 
+    @PostMapping(value= "/api/patients")
+    PatientBean createPatient(@RequestBody PatientBean patientBean);
+
+    @PutMapping(value= "/api/patients")
+    PatientBean updatePatient(@RequestBody PatientBean patientBean);
+
+    @DeleteMapping( value = "/api/patients/{id}")
+    PatientBean deletePatient(@PathVariable("id") int id);
 }

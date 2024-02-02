@@ -40,9 +40,6 @@ public class PatientController {
 
     @PutMapping
     public ResponseEntity<Patient> updatePatient(@RequestBody Patient updatedPatient) {
-        /*if (updatedPatient.getId() == null) {
-            throw new IllegalArgumentException("Patient not found.");
-        }*/
         try {
             Patient updated = patientService.updatePatient(updatedPatient);
             return ResponseEntity.ok(updated);
@@ -52,9 +49,12 @@ public class PatientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePatient(@PathVariable String id) {
-        patientService.deletePatient(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Patient> deletePatient(@PathVariable String id) {
+        Optional<Patient> patient = patientService.getPatientById(id);
+        if(patient != null){
+            patientService.deletePatient(id);
+        }
+        return patient.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }
 

@@ -10,16 +10,16 @@
 
 <body class="container">
     <nav>
-        <div class="nav-wrapper teal darken-2">
+        <div class="nav-wrapper teal">
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li class="active"><a href="">Patients</a></li>
                 <li><a href="">Logout</a></li>
             </ul>
-            <a href="#" class="brand-logo left">Medilabo Solutions</a>
+            <a class="brand-logo left">Medilabo Solutions</a>
         </div>
     </nav>
     <h2 class="teal-text darken-4-text center-align">Patients Dashboard</h2>
-    <a class="waves-effect waves-light btn">Add new Patient</a>
+    <a  th:href="@{patients/add}" class="waves-effect waves-light btn">Add new Patient</a>
     <table class="highlight">
     <thead>
     <tr>
@@ -35,14 +35,17 @@
     </thead>
     <tbody>
     <tr th:each="patient : ${patients}">
-        <td th:text="${patient.id}"></td>
-        <td th:text="${patient.firstname}"></td>
-        <td th:text="${patient.lastname}"></td>
+        <td><a th:href="@{patients/{id}(id=${patient.id})}" th:text="${patient.id}"></a></td>
+        <td><a th:href="@{patients/{id}(id=${patient.id})}" th:text="${patient.firstname}"></a></td>
+        <td><a th:href="@{patients/{id}(id=${patient.id})}" th:text="${patient.lastname}"></a></td>
         <th th:text="${patient.birthdate}"></th>
         <th th:text="${patient.gender}"></th>
         <th th:text="${patient.phone_number}"></th>
-        <td><i class="material-icons blue-text darken-2-text">edit</i></td>
-        <td><i class="material-icons red-text darken-4-text">delete</i></td>
+        <td><i class="material-icons blue-text darken-2-text">
+                <a th:href="@{patients/edit/{id}(id=${patient.id})}">edit</a>
+            </i></td>
+        <td><i class="material-icons darken-4-text">
+        <a th:href="@{patients/delete/{id}(id=${patient.id})}" class="red-text">delete</a></i></td>
     </tr>
     </tbody>
 </table>

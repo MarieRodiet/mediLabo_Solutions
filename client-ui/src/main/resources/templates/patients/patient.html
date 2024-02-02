@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body class="container">
+    <nav>
+        <div class="nav-wrapper teal darken-2">
+            <ul
+                    id="nav-mobile"
+                    class="right hide-on-med-and-down"
+            >
+                <li><a href="">Patients</a></li>
+                <li><a href="">Logout</a></li>
+            </ul>
+            <a
+                    href="#"
+                    class="brand-logo left"
+            >Medilabo Solutions</a
+            >
+        </div>
+    </nav>
+    <h2 class="teal-text darken-4-text center-align">Patient Details</h2>
+
+    <div class="card">
+        <div class="card-content">
+            <p><strong>ID:</strong> <span th:text="${patient.id}"></span></p>
+            <p><strong>First Name:</strong> <span th:text="${patient.firstname}"></span></p>
+            <p><strong>Last Name:</strong> <span th:text="${patient.lastname}"></span></p>
+            <p><strong>Birthdate:</strong> <span th:text="${patient.birthdate}"></span></p>
+            <p><strong>Gender:</strong> <span th:text="${patient.gender}"></span></p>
+            <p><strong>Address:</strong></p>
+            <ul>
+                <li th:each="address : ${patient.address}" th:text="${address}"></li>
+            </ul>
+
+            <p><strong>Phone Number:</strong> <span th:text="${patient.phone_number}"></span></p>
+        </div>
+    </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</html>

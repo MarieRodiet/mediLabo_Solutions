@@ -47,11 +47,6 @@ public class ClientController {
             @Valid PatientBean patientBean,
             BindingResult result,
             RedirectAttributes redirectAttributes){
-        System.out.println("patientBean");
-        System.out.println(patientBean);
-        patientBean.setBirthdate(DateParser.parseDate(patientBean.getBirthdate().toString()));
-        System.out.println("patientBean");
-        System.out.println(patientBean);
         if (result.hasErrors()) {
             System.out.println("Patient has errors: " + result.getAllErrors());
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.patientBean", result);

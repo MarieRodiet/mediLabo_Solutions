@@ -15,7 +15,7 @@ public class PatientBean {
     private String id;
     private String firstname;
     private String lastname;
-    @DateTimeFormat(pattern = "E MMM dd HH:mm:ss z yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date birthdate;
     private String gender;
     private String address;

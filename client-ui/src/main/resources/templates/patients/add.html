@@ -4,14 +4,17 @@
   <meta charset="UTF-8">
   <title>New Patient Form</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="/styles/main.css">
   <style>
       form {
           background-color: #fff;
-          padding: 20px;
-          margin-top: 20px;
+          padding: 10px;
+          margin-top: 10px;
           border-radius: 5px;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      select {
+        display: block;
       }
   </style>
 </head>
@@ -29,59 +32,60 @@
       <h2 class="teal-text darken-4-text center-align">Add New Patient</h2>
 
     <form th:action="@{/patients/validate}" method="post">
-      <div class="input-field">
+      <div class="input-field row">
+        <input type="hidden" th:field="${patient.id}"/>
+      </div>
+      <div class="input-field row">
         <label for="firstname">First Name:</label>
         <input type="text" id="firstname" name="firstname" required th:field="${patient.firstname}">
       </div>
 
-      <div class="input-field">
+      <div class="input-field row">
         <label for="lastname">Last Name:</label>
         <input type="text" id="lastname" name="lastname" required th:field="${patient.lastname}">
       </div>
 
-      <div class="input-field">
+      <div class="input-field row">
         <label for="birthdate">Birthdate:</label>
         <input type="text" id="birthdate" name="birthdate" class="datepicker" required th:field="${patient.birthdate}">
       </div>
 
-      <div class="input-field">
+      <div class="input-field row">
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required th:field="${patient.address}">
+      </div>
+
+      <div class="input-field row">
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" required th:field="${patient.phone_number}">
+      </div>
+
+      <div class="input-field row">
         <select id="gender" name="gender" required th:field="${patient.gender}">
           <option value="" selected>Gender</option>
           <option value="MALE">Male</option>
           <option value="FEMALE">Female</option>
           <option value="OTHER">Other</option>
         </select>
-        <label for="gender">Gender:</label>
       </div>
 
-      <button type="submit" class="btn">Save</button>
+      <div class="row">
+        <button type="submit" class="btn">Save</button>
+      </div>
     </form>
   </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
-			document.addEventListener('DOMContentLoaded', function () {
-				var elems = document.querySelectorAll('.datepicker');
-				var instances = M.Datepicker.init(elems, options);
-			});
+            var $input = $('.datepicker').pickadate()
 
-			// Or with jQuery
-
-			$(document).ready(function () {
-				$('.datepicker').datepicker();
-			});
-
+            var picker = $input.pickadate('picker')
 			document.addEventListener('DOMContentLoaded', function () {
 				var elems = document.querySelectorAll('select');
 				var instances = M.FormSelect.init(elems, options);
 			});
 
-			// Or with jQuery
-
-			$(document).ready(function () {
-				$('select').formSelect();
-			});
 		</script>
 </body>
 </html>

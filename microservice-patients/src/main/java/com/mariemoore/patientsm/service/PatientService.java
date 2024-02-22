@@ -4,11 +4,13 @@ import com.mariemoore.patientsm.model.Patient;
 import com.mariemoore.patientsm.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PatientService {
 
     private final PatientRepository patientRepository;
@@ -27,6 +29,7 @@ public class PatientService {
     }
 
     public Patient createPatient(Patient patient) {
+        patient.setId(null);
         return patientRepository.save(patient);
     }
 

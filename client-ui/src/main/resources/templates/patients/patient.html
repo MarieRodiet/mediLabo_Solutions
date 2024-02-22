@@ -32,11 +32,7 @@
             <p><strong>Last Name:</strong> <span th:text="${patient.lastname}"></span></p>
             <p><strong>Birthdate:</strong> <span th:text="${patient.birthdate}"></span></p>
             <p><strong>Gender:</strong> <span th:text="${patient.gender}"></span></p>
-            <p><strong>Address:</strong></p>
-            <ul>
-                <li th:each="address : ${patient.address}" th:text="${address}"></li>
-            </ul>
-
+            <p><strong>Address:</strong><span th:text="${patient.address}"></span></p>
             <p><strong>Phone Number:</strong> <span th:text="${patient.phone_number}"></span></p>
         </div>
     </div>

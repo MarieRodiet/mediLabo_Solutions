@@ -1,1 +1,0 @@
-# mediLabo_Solutions

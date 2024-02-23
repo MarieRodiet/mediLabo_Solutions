@@ -26,15 +26,15 @@ public class PatientNoteController {
         return ResponseEntity.ok(notes);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<Note>> getPatientNotesByPatientId(@PathVariable String id){
-        log.info("GET /api/notes/{} - Getting all notes of Patient with ID: {}", id, id);
-        List<Note> notes = noteService.getNotesByPatientId(id);
+    @GetMapping("/{patientId}")
+    public ResponseEntity<List<Note>> getNotesByPatientId(@PathVariable String patientId){
+        log.info("GET /api/notes/{} - Getting all notes of Patient with ID: {}", patientId, patientId);
+        List<Note> notes = noteService.getNotesByPatientId(patientId);
         return ResponseEntity.ok(notes);
     }
 
     @PostMapping
-    public ResponseEntity<Note> createPatientNote(@RequestBody Note note) {
+    public ResponseEntity<Note> createNote(@RequestBody Note note) {
         log.info("POST /api/notes - Creating a new note: {}", note);
         try {
             Note createdNote = noteService.createNote(note);
@@ -46,7 +46,7 @@ public class PatientNoteController {
     }
 
     @PutMapping
-    public ResponseEntity<Note> updatePatientNote(@RequestBody Note updatedNote) {
+    public ResponseEntity<Note> updateNote(@RequestBody Note updatedNote) {
         log.info("PUT /api/notes - Updating note: {}", updatedNote);
         try {
             Note updated = noteService.updateNote(updatedNote);
@@ -58,7 +58,7 @@ public class PatientNoteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Optional<Note>> deletePatientNote(@PathVariable String id) {
+    public ResponseEntity<Optional<Note>> deleteNote(@PathVariable String id) {
         log.info("DELETE /api/notes/{} - Deleting note by ID: {}", id, id);
         Optional<Note> note = noteService.getNoteById(id);
         if(note != null){

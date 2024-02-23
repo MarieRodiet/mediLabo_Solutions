@@ -1,9 +1,10 @@
 package com.clientui.controller;
 
 
+import com.clientui.beans.Note;
 import com.clientui.beans.PatientBean;
-import com.clientui.proxies.MicroservicePatientsProxy;
-import com.clientui.util.DateParser;
+import com.clientui.proxies.PatientsProxy;
+import com.clientui.proxies.NotesProxy;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,11 @@ import java.util.*;
 @Controller
 public class ClientController {
     @Autowired
-    private MicroservicePatientsProxy PatientsProxy;
+    private PatientsProxy PatientsProxy;
+
+    @Autowired
+    private NotesProxy NotesProxy;
+
 
 
     @GetMapping("/patients")
@@ -31,7 +36,9 @@ public class ClientController {
     @GetMapping("/patients/{id}")
     public String checkPatient(@PathVariable String id, Model model){
         PatientBean patient = PatientsProxy.getPatient(id);
+        List<Note> notes = NotesProxy.getPatientNotesByPatientId(id);
         model.addAttribute("patient", patient);
+        model.addAttribute("notes", notes);
         return "patients/patient";
     }
 

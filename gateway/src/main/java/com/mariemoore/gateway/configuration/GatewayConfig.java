@@ -13,6 +13,8 @@ public class GatewayConfig {
         return builder.routes()
                 .route(r -> r.path("/api/patients/**")
                         .uri("http://localhost:9001"))
+                .route(r -> r.path("/api/notes/**")
+                        .uri("http://localhost:9000"))
                 .build();
     }
 }

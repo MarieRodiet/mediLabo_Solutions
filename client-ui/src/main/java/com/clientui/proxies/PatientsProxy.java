@@ -5,12 +5,11 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 
-@FeignClient(name = "gateway", url = "localhost:9001")
+@FeignClient(name = "patient-gateway", url = "localhost:9001")
 @Component
-public interface MicroservicePatientsProxy {
+public interface PatientsProxy {
     @GetMapping(value = "/api/patients")
     List<PatientBean> getAllPatients();
 
@@ -25,4 +24,5 @@ public interface MicroservicePatientsProxy {
 
     @DeleteMapping( value = "/api/patients/{id}")
     PatientBean deletePatient(@PathVariable("id") String id);
+
 }

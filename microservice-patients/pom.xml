@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mariemoore</groupId>
-	<artifactId>patientsm</artifactId>
+	<artifactId>patients</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>patientsm</name>
+	<name>patients</name>
 	<description>Backend for patients</description>
 	<properties>
 		<java.version>17</java.version>

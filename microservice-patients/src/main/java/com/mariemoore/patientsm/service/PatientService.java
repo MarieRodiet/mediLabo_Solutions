@@ -13,9 +13,9 @@ import java.util.Optional;
 @Transactional
 public class PatientService {
 
-    private final PatientRepository patientRepository;
-
     @Autowired
+    private PatientRepository patientRepository;
+
     public PatientService(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
     }

@@ -16,12 +16,9 @@ import java.util.Optional;
 @RequestMapping("/api/patients")
 public class PatientController {
 
-    private final PatientService patientService;
-
     @Autowired
-    public PatientController(PatientService patientService) {
-        this.patientService = patientService;
-    }
+    private PatientService patientService;
+
 
     @GetMapping
     public ResponseEntity<List<Patient>> getAllPatients() {

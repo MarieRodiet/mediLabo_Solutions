@@ -5,7 +5,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.List;
 
 @AllArgsConstructor
 @Data
@@ -17,7 +16,7 @@ public class Patient {
     private String lastname;
     private Date birthdate;
     private String gender;
-    private List<String> address;
+    private String address;
     private String phone_number;
 }
 

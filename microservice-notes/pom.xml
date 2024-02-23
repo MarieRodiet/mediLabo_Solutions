@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.0</version>
+		<version>3.2.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mariemoore</groupId>
-	<artifactId>patients</artifactId>
+	<artifactId>notes_ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>patients</name>
-	<description>Backend for patients</description>
+	<name>notes_ms</name>
+	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -56,11 +56,10 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-					<mainClass>com.mariemoore.patientsm.MicroservicePatientsApp</mainClass>
+					<mainClass>com.mariemoore.notes_ms.NotesMsApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

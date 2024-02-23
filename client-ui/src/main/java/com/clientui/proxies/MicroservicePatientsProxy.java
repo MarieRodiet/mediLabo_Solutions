@@ -15,7 +15,7 @@ public interface MicroservicePatientsProxy {
     List<PatientBean> getAllPatients();
 
     @GetMapping( value = "/api/patients/{id}")
-    PatientBean getPatient(@PathVariable("id") int id);
+    PatientBean getPatient(@PathVariable("id") String id);
 
     @PostMapping(value= "/api/patients")
     PatientBean createPatient(@RequestBody PatientBean patientBean);
@@ -24,5 +24,5 @@ public interface MicroservicePatientsProxy {
     PatientBean updatePatient(@RequestBody PatientBean patientBean);
 
     @DeleteMapping( value = "/api/patients/{id}")
-    PatientBean deletePatient(@PathVariable("id") int id);
+    PatientBean deletePatient(@PathVariable("id") String id);
 }

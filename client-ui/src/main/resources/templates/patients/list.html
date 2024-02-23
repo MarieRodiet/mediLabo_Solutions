@@ -3,54 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>Patients Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/main.css">
+    <script src="https://kit.fontawesome.com/d49e11fc23.js" crossorigin="anonymous"></script>
 </head>
-
-<body class="container">
-    <nav>
-        <div class="nav-wrapper teal">
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li class="active"><a href="">Patients</a></li>
-                <li><a href="">Logout</a></li>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" th:href="@{/patients}">Medilabo Solutions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Patients</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
             </ul>
-            <a class="brand-logo left">Medilabo Solutions</a>
         </div>
     </nav>
-    <h2 class="teal-text darken-4-text center-align">Patients Dashboard</h2>
-    <a  th:href="@{patients/add}" class="waves-effect waves-light btn">Add new Patient</a>
-    <table class="highlight">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Birthdate</th>
-        <th>Gender</th>
-        <th>Phone Number</th>
-        <th></th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="patient : ${patients}">
-        <td><a th:href="@{patients/{id}(id=${patient.id})}" th:text="${patient.id}"></a></td>
-        <td><a th:href="@{patients/{id}(id=${patient.id})}" th:text="${patient.firstname}"></a></td>
-        <td><a th:href="@{patients/{id}(id=${patient.id})}" th:text="${patient.lastname}"></a></td>
-        <th th:text="${patient.birthdate}"></th>
-        <th th:text="${patient.gender}"></th>
-        <th th:text="${patient.phone_number}"></th>
-        <td><i class="material-icons blue-text darken-2-text">
-                <a th:href="@{patients/edit/{id}(id=${patient.id})}">edit</a>
-            </i></td>
-        <td><i class="material-icons darken-4-text">
-        <a th:href="@{patients/delete/{id}(id=${patient.id})}" class="red-text">delete</a></i></td>
-    </tr>
-    </tbody>
-</table>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+    <div  class="container mt-4">
+        <h2>Patients Dashboard</h2>
+        <a class="btn btn-primary mb-3" th:href="@{patients/add}">Add new Patient</a>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Birthdate</th>
+                    <th>Gender</th>
+                    <th>Phone Number</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="patient : ${patients}">
+                    <td><a th:href="@{patients/{id}(id=${patient.id})}" th:text="${patient.id}"></a></td>
+                    <td><a th:href="@{patients/{id}(id=${patient.id})}" th:text="${patient.firstname}"></a></td>
+                    <td><a th:href="@{patients/{id}(id=${patient.id})}" th:text="${patient.lastname}"></a></td>
+                    <th th:text="${#dates.format(patient.birthdate, 'dd/MM/yyyy')}"></th>
+                    <th th:text="${patient.gender}"></th>
+                    <th th:text="${patient.phone_number}"></th>
+                    <td>
+                        <a th:href="@{patients/edit/{id}(id=${patient.id})}"><i class="fas fa-user-edit"></i></a>
+                    </td>
+                    <td>
+                        <a th:href="@{patients/delete/{id}(id=${patient.id})}"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
 </body>
 </html>

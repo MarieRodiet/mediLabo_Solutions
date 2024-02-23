@@ -41,6 +41,19 @@ services:
     networks:
       - internal
 
+  notes-ms:
+    build:
+      context: ./microservice-notes
+      dockerfile: Dockerfile
+    container_name: notes-ms
+    restart: on-failure
+    ports:
+      - "9000:9000"
+    depends_on:
+      - my-mongodb
+    networks:
+      - internal
+
 volumes:
   mongodb_data_container:
 

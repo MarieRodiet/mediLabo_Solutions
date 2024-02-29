@@ -9,7 +9,7 @@
         crossorigin="anonymous">
 </head>
 <body>
-    <div th:insert="fragments/nav.html :: nav"></div>
+    <div th:insert="~{fragments/nav :: nav}"></div>
     <div  class="container mt-4">
       <h2 class="text-center mt-4">Add New Note for <span th:text="${note.patient}"></span></h2>
 

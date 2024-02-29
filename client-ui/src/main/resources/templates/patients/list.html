@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/d49e11fc23.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div th:insert="fragments/nav.html :: nav"></div>
+    <div th:insert="~{fragments/nav :: nav}"></div>
     <div  class="container mt-4">
         <h1 class="m-5">Patients Dashboard</h1>
         <a class="btn btn-primary mt-4 mb-4" th:href="@{patients/add}">Add new Patient</a>

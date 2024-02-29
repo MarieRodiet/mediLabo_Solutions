@@ -9,7 +9,7 @@
           crossorigin="anonymous">
 </head>
 <body>
-    <div th:insert="fragments/nav.html :: nav"></div>
+    <div th:replace="~{fragments/nav :: nav}"></div>
 
     <div class="container mt-4 mb-5">
         <h1 class="m-5">Patient Details</h1>
@@ -27,9 +27,15 @@
                 </div>
             </div>
         </div>
+
         <h2 class="text-center mt-4">Notes</h2>
+
         <a class="btn btn-primary mb-3" th:href="@{/patients/{id}/notes/add(id=${patient.id})}">Add new Note</a>
-        <div class="card mt-4">
+
+        <div th:if="${#lists.isEmpty(notes)}">
+            This Patient has no notes
+        </div>
+        <div th:unless="${#lists.isEmpty(notes)}" class="card mt-4">
             <div class="card-body" th:each="note, iStat: ${notes}">
                 <div>
                     <p><strong>Patient:</strong> <span th:text="${note.patient}"></span></p>

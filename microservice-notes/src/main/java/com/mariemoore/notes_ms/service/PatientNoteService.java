@@ -29,21 +29,4 @@ public class PatientNoteService {
         patientNote.setId(null);
         return noteRepository.save(patientNote);
     }
-
-    public Note updateNote(Note updatedPatientNote) {
-        if (noteRepository.existsById(updatedPatientNote.getId())) {
-            updatedPatientNote.setId(updatedPatientNote.getId());
-            return noteRepository.save(updatedPatientNote);
-        } else {
-            throw new IllegalArgumentException("Patient Note not found.");
-        }
-    }
-
-    public void deleteNote(String id) {
-        if (noteRepository.existsById(id)) {
-            noteRepository.deleteById(id);
-        } else {
-            throw new IllegalArgumentException("Patient Note not found.");
-        }
-    }
 }

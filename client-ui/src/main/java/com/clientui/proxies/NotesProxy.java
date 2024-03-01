@@ -21,9 +21,6 @@ public interface NotesProxy {
     @PostMapping(value = "/api/notes")
     Note createPatientNote(Note note);
 
-    @PutMapping(value = "/api/notes")
-    Note updatePatientNote(Note note);
-
-    @DeleteMapping(value = "/api/notes/{id}")
-    Note deletePatientNote(@PathVariable("id") String id);
+    @GetMapping(value = "/api/notes/healthrisks/{patientId}/{gender}/{age}")
+    String getHealthRiskLevel(@PathVariable("patientId")String id, @PathVariable("gender")String gender, @PathVariable("age")String age);
 }

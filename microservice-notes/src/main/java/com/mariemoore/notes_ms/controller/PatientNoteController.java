@@ -43,4 +43,12 @@ public class PatientNoteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping("/healthrisks/{patientId}/{gender}/{age}")
+    public ResponseEntity<String> getHealthRisk(@PathVariable String patientId, @PathVariable String gender, @PathVariable String age){
+        log.info("GET /api/notes/healthrisks/{} - Getting health risks of Patient with ID: {}", patientId, patientId);
+        String healthRiskLevel = noteService.getRiskLevelOfPatient(patientId, gender, age);
+        return ResponseEntity.ok(healthRiskLevel);
+    }
+
 }

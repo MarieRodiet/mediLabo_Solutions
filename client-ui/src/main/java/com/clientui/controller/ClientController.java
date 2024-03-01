@@ -5,6 +5,7 @@ import com.clientui.beans.Note;
 import com.clientui.beans.PatientBean;
 import com.clientui.proxies.PatientsProxy;
 import com.clientui.proxies.NotesProxy;
+import com.clientui.util.GetAge;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,8 +38,11 @@ public class ClientController {
     public String checkPatient(@PathVariable String id, Model model){
         PatientBean patient = PatientsProxy.getPatient(id);
         List<Note> notes = NotesProxy.getPatientNotesByPatientId(id);
+        Integer age = GetAge.calculateAge(patient.getBirthdate());
+        String healthRiskLevel = NotesProxy.getHealthRiskLevel(id, patient.getGender(), String.valueOf(age));
         model.addAttribute("patient", patient);
         model.addAttribute("notes", notes);
+        model.addAttribute("healthRiskLevel", healthRiskLevel);
         return "patients/patient";
     }
 

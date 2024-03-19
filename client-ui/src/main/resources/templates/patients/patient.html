@@ -15,9 +15,19 @@
         <h1 class="m-5">Patient Details</h1>
         <div class="card mt-5">
             <div class="card-body">
-                <div>
-                    <h2><span class="badge badge-secondary" th:text="${healthRiskLevel}"></span></h2>
-                    <span  class="badge rounded-pill bg-success"></span>
+                <div th:switch="${healthRiskLevel}">
+                    <h2 th:case="'None'">
+                        <span class="badge badge-success" th:text="${healthRiskLevel}"></span>
+                    </h2>
+                    <h2 th:case="'In Danger'">
+                        <span class="badge badge-danger" th:text="${healthRiskLevel}"></span>
+                    </h2>
+                    <h2 th:case="Borderline">
+                        <span class="badge badge-warning" th:text="${healthRiskLevel}"></span>
+                    </h2>
+                    <h2 th:case="*">
+                        <span class="badge badge-info" th:text="${healthRiskLevel}"></span>
+                    </h2>
                 </div>
 
                 <p><strong>First Name:</strong> <span th:text="${patient.firstname}"></span></p>

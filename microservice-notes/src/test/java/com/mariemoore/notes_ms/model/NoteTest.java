@@ -8,30 +8,27 @@ public class NoteTest {
     @Test
     public void testConstructorAndGetters() {
         // Create a Note object using constructor
-        Note note = new Note("1", "patientId", "2024-03-18", "This is a note");
+        Note note = new Note("1", "patientId", "firstname Lastname", "This is a note");
 
         // Test getter methods
         assertEquals("1", note.getId());
         assertEquals("patientId", note.getPatientId());
-        assertEquals("2024-03-18", note.getDate());
         assertEquals("This is a note", note.getNote());
     }
 
     @Test
     public void testSetters() {
         // Create a Note object
-        Note note = new Note();
+        Note note = new Note("2", "3", "third patient", "note");
 
         // Set values using setter methods
-        note.setId("2");
-        note.setPatientId("newPatientId");
-        note.setDate("2024-03-19");
+        note.setPatientId("4");
+        note.setPatient("a different patient");
         note.setNote("This is another note");
 
         // Test getter methods after setting values
-        assertEquals("2", note.getId());
-        assertEquals("newPatientId", note.getPatientId());
-        assertEquals("2024-03-19", note.getDate());
+        assertEquals("4", note.getPatientId());
+        assertEquals("a different patient", note.getPatient());
         assertEquals("This is another note", note.getNote());
     }
 }

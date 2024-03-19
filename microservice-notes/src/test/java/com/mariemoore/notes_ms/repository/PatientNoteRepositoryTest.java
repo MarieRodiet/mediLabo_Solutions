@@ -1,9 +1,13 @@
+package com.mariemoore.notes_ms.repository;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
 
+import com.mariemoore.notes_ms.model.Note;
+import com.mariemoore.notes_ms.service.PatientNoteService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@SpringBootTest(classes=PatientNoteRepository.class)
 public class PatientNoteRepositoryTest {
 
     @Mock
@@ -24,15 +28,12 @@ public class PatientNoteRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        // Mocking behavior of PatientNoteRepository
-        Note note1 = new Note("1", "Note 1");
-        Note note2 = new Note("2", "Note 2");
-
-        List<Note> notes = Arrays.asList(note1, note2);
-
-        when(patientNoteRepositoryMock.findByPatientId("1")).thenReturn(notes);
-        when(patientNoteRepositoryMock.findByPatientId("2")).thenReturn(Arrays.asList(note2));
-        when(patientNoteRepositoryMock.findByPatientId("3")).thenReturn(null);
+        Note note1 = new Note("1", "1", "TestNone", "Note 1");
+        Note note2 = new Note("2", "1", "TestNone","Note 2");
+        // Lenient stubbing for patientNoteRepositoryMock
+        lenient().when(patientNoteRepositoryMock.findByPatientId("1")).thenReturn(Arrays.asList(note1, note2));
+        lenient().when(patientNoteRepositoryMock.findByPatientId("2")).thenReturn(Arrays.asList(note2));
+        lenient().when(patientNoteRepositoryMock.findByPatientId("3")).thenReturn(null);
     }
 
     @Test

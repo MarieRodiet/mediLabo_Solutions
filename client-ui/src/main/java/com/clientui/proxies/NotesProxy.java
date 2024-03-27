@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "note-gateway", url = "http://localhost:9000")
+@FeignClient(name = "note-gateway", url = "localhost:9000")
 @Component
 public interface NotesProxy {
 
@@ -21,6 +21,4 @@ public interface NotesProxy {
     @PostMapping(value = "/api/notes")
     Note createPatientNote(Note note);
 
-    @GetMapping(value = "/api/notes/healthrisks/{patientId}/{gender}/{age}")
-    String getHealthRiskLevel(@PathVariable("patientId")String id, @PathVariable("gender")String gender, @PathVariable("age")String age);
 }

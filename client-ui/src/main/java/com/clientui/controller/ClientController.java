@@ -3,6 +3,7 @@ package com.clientui.controller;
 
 import com.clientui.beans.Note;
 import com.clientui.beans.PatientBean;
+import com.clientui.proxies.HealthRiskProxy;
 import com.clientui.proxies.PatientsProxy;
 import com.clientui.proxies.NotesProxy;
 import com.clientui.util.GetAge;
@@ -25,6 +26,10 @@ public class ClientController {
     @Autowired
     private NotesProxy NotesProxy;
 
+    @Autowired
+    private HealthRiskProxy HealthRiskProxy;
+
+
 
 
     @GetMapping("/patients")
@@ -39,7 +44,7 @@ public class ClientController {
         PatientBean patient = PatientsProxy.getPatient(id);
         List<Note> notes = NotesProxy.getPatientNotesByPatientId(id);
         Integer age = GetAge.calculateAge(patient.getBirthdate());
-        String healthRiskLevel = NotesProxy.getHealthRiskLevel(id, patient.getGender(), String.valueOf(age));
+        String healthRiskLevel = HealthRiskProxy.getHealthRiskLevel(id, patient.getGender(), String.valueOf(age));
         model.addAttribute("patient", patient);
         model.addAttribute("notes", notes);
         model.addAttribute("healthRiskLevel", healthRiskLevel);

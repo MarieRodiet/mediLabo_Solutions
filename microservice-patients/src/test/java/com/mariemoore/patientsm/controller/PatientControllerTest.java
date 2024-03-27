@@ -124,6 +124,7 @@ public class PatientControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
+
     @Test
     void testDeletePatient() {
         // Given

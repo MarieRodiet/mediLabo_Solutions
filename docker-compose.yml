@@ -54,6 +54,17 @@ services:
     networks:
       - internal
 
+  healthrisk:
+    build:
+      context: ./microservice-healthrisks
+      dockerfile: Dockerfile
+    container_name: healthrisks_ms
+    restart: on-failure
+    ports:
+      - "9003:9003"
+    networks:
+      - internal
+
 volumes:
   mongodb_data_container:
 

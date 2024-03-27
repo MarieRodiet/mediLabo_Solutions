@@ -18,6 +18,7 @@ public class NotesMsApplication {
 	@Bean
 	public CommandLineRunner initData(PatientNoteService noteService ){
 		return args -> {
+			noteService.deleteAllNotes();
 			noteService.createNote(new Note("1", "1", "TestNone",
 					"Le patient déclare qu'il 'se sent très bien' Poids égal ou inférieur au poids recommandé"));
 

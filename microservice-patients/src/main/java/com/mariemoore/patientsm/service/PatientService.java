@@ -49,5 +49,9 @@ public class PatientService {
             throw new IllegalArgumentException("Patient not found.");
         }
     }
+
+    public void deleteAllPatients(){
+        patientRepository.deleteAll();
+    }
 }
 

@@ -19,6 +19,9 @@ public class MicroservicePatientsApp {
 	@Bean
 	public CommandLineRunner initData(PatientService patientService ){
 		return args -> {
+
+			patientService.deleteAllPatients();
+
 			patientService.createPatient(new Patient("1", "Test", "TestNone", new Date(45, 5, 24), "F", "1 Brookside St", "100-222-3333"));
 			patientService.createPatient(new Patient("2","Test", "TestBorderline", new Date(45, 5, 24), "M", "2 High St", "200-333-4444"));
 			patientService.createPatient(new Patient("3","Test", "TestInDanger", new Date(104, 5, 18), "M", "3 Club Road", "300-444-5555"));

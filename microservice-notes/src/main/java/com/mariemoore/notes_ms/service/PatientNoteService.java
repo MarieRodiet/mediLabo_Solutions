@@ -32,5 +32,8 @@ public class PatientNoteService {
         return HealthRiskFinder.getHealthRiskLevel(notes, gender, age);
     }
 
+    public void deleteAllNotes(){
+        noteRepository.deleteAll();
+    }
 
 }

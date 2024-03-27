@@ -62,10 +62,12 @@ public class PatientController {
     public ResponseEntity<Optional<Patient>> deletePatient(@PathVariable String id) {
         log.info("DELETE /api/patients/{} - Deleting patient by ID: {}", id, id);
         Optional<Patient> patient = patientService.getPatientById(id);
-        if(patient != null){
+        if (patient.isPresent()) {
             patientService.deletePatient(id);
+            return ResponseEntity.ok(patient);
+        } else {
+            return ResponseEntity.notFound().build(); // Return 404 when patient is not found
         }
-        return ResponseEntity.ok(patient);
     }
 }
 

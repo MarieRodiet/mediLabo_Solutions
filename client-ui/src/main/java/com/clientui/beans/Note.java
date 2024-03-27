@@ -1,19 +1,16 @@
-package com.mariemoore.notes_ms.model;
+package com.clientui.beans;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.NoArgsConstructor;
+
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-@Document(collection = "patient_notes")
 public class Note {
-
-    @Id
     private String id;
     private String patientId;
     private String patient;
     private String note;
-
 }

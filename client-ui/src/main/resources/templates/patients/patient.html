@@ -7,37 +7,58 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" th:href="@{/patients}">Medilabo Solutions</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Patients</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <h2 class="text-center mt-4">Patient Details</h2>
+    <div th:replace="~{fragments/nav :: nav}"></div>
 
-    <div class="container mt-4">
-        <div class="card mt-4">
+    <div class="container mt-4 mb-5">
+        <h1 class="m-5">Patient Details</h1>
+        <div class="card mt-5">
             <div class="card-body">
+                <div th:switch="${healthRiskLevel}">
+                    <h2 th:case="'None'">
+                        <span class="badge badge-success" th:text="${healthRiskLevel}"></span>
+                    </h2>
+                    <h2 th:case="'In Danger'">
+                        <span class="badge badge-danger" th:text="${healthRiskLevel}"></span>
+                    </h2>
+                    <h2 th:case="Borderline">
+                        <span class="badge badge-warning" th:text="${healthRiskLevel}"></span>
+                    </h2>
+                    <h2 th:case="*">
+                        <span class="badge badge-info" th:text="${healthRiskLevel}"></span>
+                    </h2>
+                </div>
+
                 <p><strong>First Name:</strong> <span th:text="${patient.firstname}"></span></p>
                 <p><strong>Last Name:</strong> <span th:text="${patient.lastname}"></span></p>
                 <p><strong>Birthdate:</strong> <span th:text="${#dates.format(patient.birthdate, 'dd/MM/yyyy')}"></span></p>
                 <p><strong>Gender:</strong> <span th:text="${patient.gender}"></span></p>
-                <p><strong>Address:</strong><span th:text="${patient.address}"></span></p>
-                <p><strong>Phone Number:</strong> <span th:text="${patient.phone_number}"></span></p>
+                <div th:if="${patient.address != null and  !#strings.isEmpty(patient.address)}">
+                    <p><strong>Address:</strong><span th:text="${patient.address}"></span></p>
+                </div>
+                <div th:if="${patient.phone_number != null and !#strings.isEmpty(patient.phone_number)}">
+                    <p><strong>Phone Number:</strong> <span th:text="${patient.phone_number}"></span></p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-center mt-4">Notes</h2>
+
+        <a class="btn btn-primary mb-3" th:href="@{/patients/{id}/notes/add(id=${patient.id})}">Add new Note</a>
+
+        <div th:if="${#lists.isEmpty(notes)}">
+            This Patient has no notes
+        </div>
+        <div th:unless="${#lists.isEmpty(notes)}" class="card mt-4">
+            <div class="card-body" th:each="note, iStat: ${notes}">
+                <div>
+                    <p><strong>Patient:</strong> <span th:text="${note.patient}"></span></p>
+                    <p><strong>Note:</strong> <span th:text="${note.note}"></span></p>
+                    <div th:if="${!iStat.last}">
+                        <div class="border-top"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

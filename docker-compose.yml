@@ -11,6 +11,8 @@ services:
       - "9002:9002"
     depends_on:
       - patientsm
+    environment:
+      - JWT_SECRET_KEY=LAnERvWGZT+pdK56ITTH2spULh055DyZlzWkjSPPoek=
     networks:
       - internal
 

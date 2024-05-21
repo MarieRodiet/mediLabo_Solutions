@@ -1,14 +1,18 @@
 package com.clientui.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@Slf4j
 public class AuthenticationService {
 
     private final RestTemplate restTemplate;
@@ -29,11 +33,16 @@ public class AuthenticationService {
 
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+        try {
+            // Send the POST request to the gateway's /login endpoint
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(loginUrl, requestEntity, String.class);
+            // Return the authentication token from the response body
+            return responseEntity.getBody();
 
-        // Send the POST request to the gateway's /login endpoint
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(loginUrl, requestEntity, String.class);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            log.error(e.getMessage());
+            return null;
 
-        // Return the authentication token from the response body
-        return responseEntity.getBody();
+        }
     }
 }

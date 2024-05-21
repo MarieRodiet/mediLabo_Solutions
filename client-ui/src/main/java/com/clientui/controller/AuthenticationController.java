@@ -42,20 +42,17 @@ public class AuthenticationController {
     public String authenticate(@RequestParam("username") String username,
                                @RequestParam("password") String password,
                                HttpServletResponse response,
-                               Model model){
-        String authToken;
-        authToken = authenticationService.authenticate(username, password);
+                               Model model) {
+        String authToken = authenticationService.authenticate(username, password);
 
         if (authToken != null) {
             tokenManager.setToken(authToken, response);
-            System.out.println("authToken : ");
-            System.out.println(authToken);
             logger.info("User logged in successfully: {}", username);
             response.addHeader("Authorization", "Bearer " + authToken);
-            return "redirect:/api/patients";
+            return "redirect:/patients";
         } else {
             logger.warn("Invalid credentials provided for user: {}", username);
-            model.addAttribute("error", true);
+            model.addAttribute("loginError", "Invalid credentials");
             return "login";
         }
     }

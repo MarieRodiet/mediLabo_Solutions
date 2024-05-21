@@ -23,9 +23,10 @@ public class AuthenticationService {
 
         // Prepare the request body
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String requestBody = "username=" + username + "&password=" + password;
+        String requestBody = "{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}";
+
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 

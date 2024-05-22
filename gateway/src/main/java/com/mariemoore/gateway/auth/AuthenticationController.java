@@ -2,14 +2,15 @@ package com.mariemoore.gateway.auth;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
@@ -23,32 +24,34 @@ public class AuthenticationController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    /*@Autowired
-    private JwtUtil jwtUtil*/
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public void createAuthenticationToken(@RequestBody Map<String, String> credentials, HttpServletResponse response) throws AuthenticationException, IOException {
+    public ResponseEntity<String> createAuthenticationToken(@RequestBody Map<String, String> credentials) throws IOException {
         log.info("in authentication Request to get token");
-        String username = null;
-        String password = null;
+        String username;
+        String password;
         try {
             username = credentials.get("username");
             password = credentials.get("password");
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
-            );
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            log.info("userDetails found with username : " + userDetails.getUsername());
+            if(userDetails != null){
+                log.info("userDetails found with username : " + userDetails.getUsername());
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+                String jwt = jwtUtil.generateToken(username);
+                return ResponseEntity.ok(jwt);
+            }
+            else {
+                log.error("user does not exist");
+                return ResponseEntity.status(401).body("bad credentials");
+            }
 
-            //String jwt = jwtUtil.generateToken(username);
-            String jwt = "token";
-                    log.info("token : " + jwt);
-            response.addHeader("Authorization", "Bearer " + jwt);
-            response.getWriter().write("{\"token\": \"" + jwt + "\"}");
-        } catch (Exception e) {
+
+        } catch (UsernameNotFoundException | BadCredentialsException e) {
             log.error(e.getMessage());
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Credentials : " + username + password);
+            return ResponseEntity.status(401).body("username not found");
         }
     }
 }

@@ -1,17 +1,16 @@
-package com.mariemoore.gateway.auth;
+package com.mariemoore.gateway.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
-public class JwtUtil {
-
+@Service
+public class JWTService {
     @Value("${JWT_SECRET_KEY}")
     private String SECRET_KEY;
     private static final long EXPIRATION_TIME = 86400000; // 24 hours

@@ -5,23 +5,25 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.util.Map;
 
 @Slf4j
 @RestController
 public class AuthenticationController {
+
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private ReactiveAuthenticationManager reactiveAuthenticationManager;
 
     @Autowired
     private MapReactiveUserDetailsService userDetailsService;
@@ -30,20 +32,29 @@ public class AuthenticationController {
     private JWTService jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<String> createAuthenticationToken(@RequestBody Map<String, String> credentials) throws IOException {
+    public Mono<ResponseEntity<String>> createAuthenticationToken(@RequestBody Map<String, String> credentials) {
         log.info("Received authentication request");
 
         String username = credentials.get("username");
         String password = credentials.get("password");
 
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            UserDetails userDetails = (UserDetails) userDetailsService.findByUsername(username);
-            String jwt = jwtUtil.generateToken(userDetails.getUsername());
-            return ResponseEntity.ok(jwt);
-        } catch (AuthenticationException e) {
-            log.error("Authentication failed: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-        }
+        return userDetailsService.findByUsername(username)
+                .switchIfEmpty(Mono.error(new UsernameNotFoundException("User not found")))
+                .flatMap(userDetails -> {
+                    Authentication authToken = new UsernamePasswordAuthenticationToken(username, password);
+                    return reactiveAuthenticationManager.authenticate(authToken)
+                            .flatMap(authentication -> {
+                                if (authentication.isAuthenticated()) {
+                                    String jwt = jwtUtil.generateToken(userDetails.getUsername());
+                                    return Mono.just(ResponseEntity.ok(jwt));
+                                } else {
+                                    return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials"));
+                                }
+                            })
+                            .onErrorResume(AuthenticationException.class, e -> {
+                                log.error("Authentication failed: {}", e.getMessage());
+                                return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials"));
+                            });
+                });
     }
 }

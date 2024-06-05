@@ -1,6 +1,6 @@
 package com.mariemoore.gateway.controller;
 
-import com.mariemoore.gateway.security.JWTService;
+import com.mariemoore.gateway.security.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class AuthenticationController {
     private MapReactiveUserDetailsService userDetailsService;
 
     @Autowired
-    private JWTService jwtUtil;
+    private JwtService jwtService;
 
     @PostMapping("/login")
     public Mono<ResponseEntity<String>> createAuthenticationToken(@RequestBody Map<String, String> credentials) {
@@ -45,7 +45,7 @@ public class AuthenticationController {
                     return reactiveAuthenticationManager.authenticate(authToken)
                             .flatMap(authentication -> {
                                 if (authentication.isAuthenticated()) {
-                                    String jwt = jwtUtil.generateToken(userDetails.getUsername());
+                                    String jwt = jwtService.generateToken(userDetails.getUsername());
                                     return Mono.just(ResponseEntity.ok(jwt));
                                 } else {
                                     return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials"));

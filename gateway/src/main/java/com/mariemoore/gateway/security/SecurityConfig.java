@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,7 +26,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
+import org.springframework.security.web.server.authentication.ServerAuthenticationConverter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -50,6 +53,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig{
 
+
     @Bean
     public ReactiveAuthenticationManager reactiveAuthenticationManager(MapReactiveUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         UserDetailsRepositoryReactiveAuthenticationManager authenticationManager = new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService);
@@ -58,35 +62,22 @@ public class SecurityConfig{
     }
 
     @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        http
+    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http, JwtService jwtService) {
+        AuthenticationWebFilter jwtAuthFilter = new AuthenticationWebFilter(new JwtAuthenticationManager(jwtService));
+        jwtAuthFilter.setServerAuthenticationConverter(new JWTAuthenticationConverter(jwtService));
+
+        return http
+                .csrf().disable()
                 .authorizeExchange()
-                .pathMatchers(HttpMethod.POST, "/login").permitAll()
+                .pathMatchers("/login").permitAll()
+                .pathMatchers("/login").permitAll()
                 .pathMatchers("/api/patients/**").authenticated()
+                .pathMatchers("/api/notes/**").authenticated()
+                .pathMatchers("/api/healthrisks/**").authenticated()
                 .anyExchange().permitAll()
                 .and()
-                .csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint((swe, e) -> Mono.fromRunnable(() -> swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED)))
-                .and()
-                .logout()
-                .disable()
-                .httpBasic().disable();
-        return http.build();
-    }
-
-    @Bean
-    public WebFilter webFilter() {
-        return (exchange, chain) -> {
-            // Check if the request is made to the /login endpoint
-            if (exchange.getRequest().getPath().equals("/login")) {
-                // Allow requests to /login to proceed
-                return chain.filter(exchange);
-            } else {
-                // For all other requests, allow them to proceed
-                return chain.filter(exchange);
-            }
-        };
+                .addFilterAt(jwtAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                .build();
     }
 
     @Bean
@@ -106,6 +97,11 @@ public class SecurityConfig{
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public ServerAuthenticationConverter authenticationConverter(JwtService jwtService) {
+        return new JWTAuthenticationConverter(jwtService);
     }
 }
 

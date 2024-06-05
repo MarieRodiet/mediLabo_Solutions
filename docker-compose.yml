@@ -46,10 +46,25 @@ services:
     build:
       context: ./microservice-healthrisks
       dockerfile: Dockerfile
-    container_name: healthrisks_ms
+    container_name: healthrisks
     restart: on-failure
     ports:
       - "9003:9003"
+    networks:
+      - internal
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    restart: on-failure
+    ports:
+      - "9002:9002"
+    depends_on:
+      - patientsm
+      - notes-ms
+      - healthrisk
     networks:
       - internal
 

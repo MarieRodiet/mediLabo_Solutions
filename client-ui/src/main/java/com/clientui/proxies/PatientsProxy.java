@@ -1,13 +1,14 @@
 package com.clientui.proxies;
 
 import com.clientui.beans.PatientBean;
+import com.clientui.security.FeignClientConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "patient-gateway", url = "localhost:9001")
+@FeignClient(name = "patient-gateway", url = "localhost:9002", configuration = FeignClientConfiguration.class)
 @Component
 public interface PatientsProxy {
     @GetMapping(value = "/api/patients")

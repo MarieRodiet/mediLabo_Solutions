@@ -55,8 +55,8 @@ public class HealthRiskFinder {
             notes contain 4 triggers and patient is woman and age < 30
             OR
             notes contain 6 to 7 triggers and patient is man and age > 30*/
-        else if ((nbOfTriggers == 3 && gender.equals(Gender.MAN.name()) && Integer.parseInt(age) < 30) ||
-                (nbOfTriggers == 4 && gender.equals(Gender.WOMAN.name()) && Integer.parseInt(age) < 30) ||
+        else if ((nbOfTriggers >= 3 && gender.equals(Gender.MAN.name()) && Integer.parseInt(age) < 30) ||
+                (nbOfTriggers >= 4 && gender.equals(Gender.WOMAN.name()) && Integer.parseInt(age) < 30) ||
                 ((nbOfTriggers >= 6 && nbOfTriggers <= 7) && gender.equals(Gender.MAN.name()) && Integer.parseInt(age) > 30)) {
             return HealthRiskLevels.IN_DANGER.healthRiskString;
         } else {

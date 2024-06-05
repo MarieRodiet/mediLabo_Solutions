@@ -12,11 +12,11 @@ public class GatewayConfig {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(r -> r.path("/api/patients/**")
-                        .uri("http://patientsm:9001"))  // Use service name 'patientsm'
+                        .uri("http://patientsm:9001"))  // Use patients microservice
                 .route(r -> r.path("/api/notes/**")
-                        .uri("http://notes-ms:9000"))  // Use service name 'notes-ms'
+                        .uri("http://notes-ms:9000"))  // Use notes microservice
                 .route(r -> r.path("/api/healthrisks/**")
-                        .uri("http://healthrisks:9003"))  // Use service name 'healthrisk'
+                        .uri("http://healthrisks:9003"))  // Use healthrisk  microservice
                 .build();
     }
 }

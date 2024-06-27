@@ -1,17 +1,21 @@
 package com.mariemoore.patientsm.model;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.NoArgsConstructor;
+
 
 import java.util.Date;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-@Document(collection = "patients")
+@Entity
+@Table(name="patients")
 public class Patient {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String firstname;
     private String lastname;
     private Date birthdate;

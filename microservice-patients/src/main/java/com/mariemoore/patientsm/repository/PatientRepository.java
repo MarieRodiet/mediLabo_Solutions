@@ -1,9 +1,11 @@
 package com.mariemoore.patientsm.repository;
 
 import com.mariemoore.patientsm.model.Patient;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface PatientRepository extends MongoRepository<Patient, String> {
+import java.util.List;
+
+public interface PatientRepository extends JpaRepository<Patient, Integer> {
+
+    List<Patient> findAll();
 }

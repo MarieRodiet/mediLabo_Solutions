@@ -30,7 +30,7 @@ public class PatientController {
     @GetMapping("/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable String id) {
         log.info("GET /api/patients/{} - Getting patient by ID: {}", id, id);
-        Optional<Patient> patient = patientService.getPatientById(id);
+        Optional<Patient> patient = patientService.getPatientById(Integer.parseInt(id));
         return patient.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -61,12 +61,13 @@ public class PatientController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Optional<Patient>> deletePatient(@PathVariable String id) {
         log.info("DELETE /api/patients/{} - Deleting patient by ID: {}", id, id);
-        Optional<Patient> patient = patientService.getPatientById(id);
+        int intId = Integer.parseInt(id);
+        Optional<Patient> patient = patientService.getPatientById(intId);
         if (patient.isPresent()) {
-            patientService.deletePatient(id);
+            patientService.deletePatient(intId);
             return ResponseEntity.ok(patient);
         } else {
-            return ResponseEntity.notFound().build(); // Return 404 when patient is not found
+            return ResponseEntity.notFound().build();
         }
     }
 }

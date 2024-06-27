@@ -10,7 +10,7 @@ public class PatientTest {
     @Test
     public void testConstructorAndGetters() {
         // Create a Patient object using constructor
-        Patient patient1 = new Patient("1", "Test", "TestNone", new Date(45, 5, 24), "F", "1 Brookside St", "100-222-3333");
+        Patient patient1 = new Patient(1, "Test", "TestNone", new Date(45, 5, 24), "F", "1 Brookside St", "100-222-3333");
         // Test getter methods
         assertEquals("1", patient1.getId());
         assertEquals("Test", patient1.getFirstname());
@@ -20,7 +20,7 @@ public class PatientTest {
     @Test
     public void testSetters() {
         // Create a Patient object
-        Patient patient1 = new Patient("1", "Test", "TestNone", new Date(45, 5, 24), "F", "1 Brookside St", "100-222-3333");
+        Patient patient1 = new Patient(1, "Test", "TestNone", new Date(45, 5, 24), "F", "1 Brookside St", "100-222-3333");
 
 
         // Set values using setter methods

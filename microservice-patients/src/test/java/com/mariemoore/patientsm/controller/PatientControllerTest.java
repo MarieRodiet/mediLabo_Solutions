@@ -53,8 +53,8 @@ public class PatientControllerTest {
     @Test
     void testGetAllPatients() {
         // Given
-        Patient patient1 = new Patient("1", "Test1", "TestNone1", new Date(45, 5, 24), "F", "1 Brookside St first", "100-222-1111");
-        Patient patient2 = new Patient("2", "Test2", "TestNone2", new Date(45, 5, 24), "M", "1 Brookside St second", "100-222-2222");
+        Patient patient1 = new Patient(1, "Test1", "TestNone1", new Date(45, 5, 24), "F", "1 Brookside St first", "100-222-1111");
+        Patient patient2 = new Patient(2, "Test2", "TestNone2", new Date(45, 5, 24), "M", "1 Brookside St second", "100-222-2222");
 
         List<Patient> patients = Arrays.asList(patient1, patient2);
         when(patientService.getAllPatients()).thenReturn(patients);
@@ -71,8 +71,8 @@ public class PatientControllerTest {
     void testGetPatientById() {
         // Given
         String id = "1";
-        Patient patient = new Patient("1", "Test1", "TestNone1", new Date(45, 5, 24), "F", "1 Brookside St first", "100-222-1111");
-        when(patientService.getPatientById(id)).thenReturn(Optional.of(patient));
+        Patient patient = new Patient(1, "Test1", "TestNone1", new Date(45, 5, 24), "F", "1 Brookside St first", "100-222-1111");
+        when(patientService.getPatientById(Integer.parseInt(id))).thenReturn(Optional.of(patient));
 
         // When
         ResponseEntity<Patient> responseEntity = patientController.getPatientById(id);
@@ -86,7 +86,7 @@ public class PatientControllerTest {
     void testGetPatientById_NotFound() {
         // Given
         String id = "100";
-        when(patientService.getPatientById(id)).thenReturn(Optional.empty());
+        when(patientService.getPatientById(Integer.parseInt(id))).thenReturn(Optional.empty());
 
         // When
         ResponseEntity<Patient> responseEntity = patientController.getPatientById(id);
@@ -98,7 +98,7 @@ public class PatientControllerTest {
     @Test
     void testCreatePatient() {
         // Given
-        Patient patient = new Patient("1", "Test1", "TestNone1", new Date(45, 5, 24), "F", "1 Brookside St first", "100-222-1111");
+        Patient patient = new Patient(1, "Test1", "TestNone1", new Date(45, 5, 24), "F", "1 Brookside St first", "100-222-1111");
         when(patientService.createPatient(patient)).thenReturn(patient);
 
         // When
@@ -112,7 +112,7 @@ public class PatientControllerTest {
     @Test
     void testUpdatePatient() {
         // Given
-        Patient updatedPatient = new Patient("1", "Test1", "TestNone1", new Date(45, 5, 24), "F", "1 Brookside St first", "100-222-1111");
+        Patient updatedPatient = new Patient(1, "Test1", "TestNone1", new Date(45, 5, 24), "F", "1 Brookside St first", "100-222-1111");
 
         when(patientService.updatePatient(updatedPatient)).thenReturn(updatedPatient);
 
@@ -129,10 +129,10 @@ public class PatientControllerTest {
     void testDeletePatient() {
         // Given
         String id = "1";
-        Patient toBeDeleted = new Patient("1", "Test1", "TestNone1", new Date(45, 5, 24), "F", "1 Brookside St first", "100-222-1111");
+        Patient toBeDeleted = new Patient(1, "Test1", "TestNone1", new Date(45, 5, 24), "F", "1 Brookside St first", "100-222-1111");
 
         Optional<Patient> patient = Optional.of(toBeDeleted);
-        when(patientService.getPatientById(id)).thenReturn(patient);
+        when(patientService.getPatientById(Integer.parseInt(id))).thenReturn(patient);
 
         // When
         ResponseEntity<Optional<Patient>> responseEntity = patientController.deletePatient(id);
@@ -140,14 +140,14 @@ public class PatientControllerTest {
         // Then
         assertTrue(responseEntity.getBody().isPresent());
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        verify(patientService, times(1)).deletePatient(id);
+        verify(patientService, times(1)).deletePatient(Integer.parseInt(id));
     }
 
     @Test
     void testDeletePatient_NotFound() {
         // Given
         String id = "100";
-        when(patientService.getPatientById(id)).thenReturn(Optional.empty());
+        when(patientService.getPatientById(Integer.parseInt(id))).thenReturn(Optional.empty());
 
         // When
         ResponseEntity<Optional<Patient>> responseEntity = patientController.deletePatient(id);

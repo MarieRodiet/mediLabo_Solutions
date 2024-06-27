@@ -24,12 +24,11 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public Optional<Patient> getPatientById(String id) {
+    public Optional<Patient> getPatientById(int id) {
         return patientRepository.findById(id);
     }
 
     public Patient createPatient(Patient patient) {
-        patient.setId(null);
         return patientRepository.save(patient);
     }
 
@@ -42,7 +41,7 @@ public class PatientService {
         }
     }
 
-    public void deletePatient(String id) {
+    public void deletePatient(int id) {
         if (patientRepository.existsById(id)) {
             patientRepository.deleteById(id);
         } else {

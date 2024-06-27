@@ -1,7 +1,6 @@
 version: "3.8"
 
 services:
-
   my-mongodb:
     image: mongo:latest
     container_name: mongo
@@ -17,19 +16,20 @@ services:
 
 
   my-sqldb:
-    image: mysql:latest
-    container_name: mysql
+    image: mariadb:10.5
+    container_name: my-sqldb
     hostname: my-sqldb
     restart: unless-stopped
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: patients_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MARIADB_ROOT_PASSWORD: admin
+      MARIADB_DATABASE: patients_db
+      MARIADB_USER: root
+      MARIADB_PASSWORD: admin
     volumes:
       - mysql_data_container:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - internal
 
@@ -46,6 +46,11 @@ services:
       - my-sqldb
     networks:
       - internal
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://my-sqldb:3306/patients_db?createDatabaseIfNotExists=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
 
   notes-ms:
     build:

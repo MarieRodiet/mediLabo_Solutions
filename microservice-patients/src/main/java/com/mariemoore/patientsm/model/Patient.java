@@ -1,20 +1,21 @@
 package com.mariemoore.patientsm.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+import lombok.NoArgsConstructor;
+
 
 import java.util.Date;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
+@Table(name="patients")
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
     private String firstname;
     private String lastname;
     private Date birthdate;

@@ -27,7 +27,7 @@ public class TokenManager {
             cookie.setMaxAge(COOKIE_MAX_AGE);
             response.addCookie(cookie);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace(); // Log or handle the exception as needed
+            e.printStackTrace();
         }
     }
 
@@ -39,12 +39,12 @@ public class TokenManager {
                     try {
                         return URLDecoder.decode(cookie.getValue(), "UTF-8");
                     } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace(); // Log or handle the exception as needed
+                        e.printStackTrace();
                     }
                 }
             }
         }
-        return null; // Token not found in cookies
+        return null;
     }
 
     public void addTokenToHeaders(HttpServletRequest request, HttpHeaders headers) {
@@ -52,5 +52,13 @@ public class TokenManager {
         if (token != null) {
             headers.add("Authorization", "Bearer " + token);
         }
+    }
+
+    public void logout(HttpServletResponse response){
+        Cookie logoutCookie = new Cookie(COOKIE_NAME, null);
+        logoutCookie.setPath(COOKIE_PATH);
+        logoutCookie.setHttpOnly(true);
+        logoutCookie.setMaxAge(0);
+        response.addCookie(logoutCookie);
     }
 }

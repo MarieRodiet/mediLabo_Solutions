@@ -1,7 +1,9 @@
 package com.clientui.security;
 
+import com.clientui.exceptions.CustomFeignErrorDecoder;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import feign.codec.ErrorDecoder;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Configuration
 public class FeignClientConfiguration {
+    @Bean
+    public ErrorDecoder errorDecoder() {
+        return new CustomFeignErrorDecoder();
+    }
 
     @Bean
     public RequestInterceptor requestInterceptor() {

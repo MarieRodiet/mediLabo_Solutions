@@ -2,6 +2,7 @@ package com.clientui.controller;
 
 import com.clientui.security.AuthenticationService;
 import com.clientui.security.TokenManager;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.Logger;
@@ -55,5 +56,12 @@ public class AuthenticationController {
             model.addAttribute("loginError", "Invalid credentials");
             return "login";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response){
+        logger.info("user logged out");
+        tokenManager.logout(response);
+        return "redirect:/login";
     }
 }

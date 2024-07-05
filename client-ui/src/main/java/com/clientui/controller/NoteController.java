@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * Controller responsible for managing notes related to patients.
+ * Handles creation and validation of notes linked to specific patients.
+ */
 @Slf4j
 @Controller
 public class NoteController {
@@ -31,6 +35,14 @@ public class NoteController {
     private TokenManager tokenManager;
     private HttpHeaders headers = new HttpHeaders();
 
+    /**
+     * Presents the form to add a new note for a specified patient.
+     *
+     * @param id The unique identifier of the patient to whom the note will be added.
+     * @param model The Model object to pass data to the view.
+     * @param request The HttpServletRequest object to read the HTTP request.
+     * @return The view name for the note addition form.
+     */
     @GetMapping("/patients/{id}/notes/add")
     public String addNote(@PathVariable String id, Model model, HttpServletRequest request){
         tokenManager.addTokenToHeaders(request, headers);
@@ -43,6 +55,15 @@ public class NoteController {
         return "notes/add";
     }
 
+    /**
+     * Validates and saves a newly added note. Redirects to the patient list if successful, or back to the form if validation fails.
+     *
+     * @param note The Note object populated from the form data.
+     * @param result The BindingResult that captures validation errors.
+     * @param redirectAttributes Attributes for redirect scenarios, used to pass forward errors.
+     * @param request The HttpServletRequest object to read the HTTP request.
+     * @return A redirection string to either the patient list or back to the note addition form.
+     */
     @PostMapping("/patients/{id}/notes/validate")
     public String validateAddedPatient(
             @Valid Note note,

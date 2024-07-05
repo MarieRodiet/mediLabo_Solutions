@@ -48,12 +48,24 @@ import java.util.Map;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+/**
+ * Configuration class for security settings in a reactive web application.
+ * Enables method-level security and sets up JWT-based authentication mechanism.
+ */
 @Configuration
 @EnableWebFluxSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig{
 
 
+    /**
+     * Configures a ReactiveAuthenticationManager with a user details service and a password encoder.
+     * This manager supports reactive authentication processes, particularly useful for non-blocking applications.
+     *
+     * @param userDetailsService The reactive user details service for retrieving user information.
+     * @param passwordEncoder The password encoder for encoding and verifying passwords.
+     * @return The configured ReactiveAuthenticationManager.
+     */
     @Bean
     public ReactiveAuthenticationManager reactiveAuthenticationManager(MapReactiveUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         UserDetailsRepositoryReactiveAuthenticationManager authenticationManager = new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService);
@@ -61,6 +73,15 @@ public class SecurityConfig{
         return authenticationManager;
     }
 
+    /**
+     * Sets up the security filter chain for HTTP requests in a reactive environment.
+     * This method configures CSRF protection as disabled, permits unrestricted access to the login endpoint,
+     * and requires authentication for other specified paths.
+     *
+     * @param http The ServerHttpSecurity to configure.
+     * @param jwtService The service to manage JWT operations.
+     * @return The security web filter chain after applying the configurations.
+     */
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http, JwtService jwtService) {
         AuthenticationWebFilter jwtAuthFilter = new AuthenticationWebFilter(new JwtAuthenticationManager(jwtService));
@@ -69,7 +90,6 @@ public class SecurityConfig{
         return http
                 .csrf().disable()
                 .authorizeExchange()
-                .pathMatchers("/login").permitAll()
                 .pathMatchers("/login").permitAll()
                 .pathMatchers("/api/patients/**").authenticated()
                 .pathMatchers("/api/notes/**").authenticated()
@@ -80,6 +100,12 @@ public class SecurityConfig{
                 .build();
     }
 
+    /**
+     * Provides a reactive user details service pre-loaded with user details.
+     * This service is used for quick in-memory access to user information.
+     *
+     * @return A MapReactiveUserDetailsService containing predefined user details.
+     */
     @Bean
     public MapReactiveUserDetailsService userDetailsService() {
         UserDetails user = User.withUsername("user@gmail.com")
@@ -94,11 +120,24 @@ public class SecurityConfig{
     }
 
 
+    /**
+     * Provides a BCryptPasswordEncoder for password encoding and validation.
+     * It's a strong cryptographic password encoder recommended for user passwords.
+     *
+     * @return A BCryptPasswordEncoder.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Configures a custom JWT authentication converter for web server applications.
+     * This converter extracts authentication information from JWTs.
+     *
+     * @param jwtService The service that handles JWT operations.
+     * @return A ServerAuthenticationConverter that uses JWTs for authentication.
+     */
     @Bean
     public ServerAuthenticationConverter authenticationConverter(JwtService jwtService) {
         return new JWTAuthenticationConverter(jwtService);

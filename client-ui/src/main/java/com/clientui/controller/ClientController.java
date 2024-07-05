@@ -22,6 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
+/**
+ * Controller for handling all patient-related interactions within the UI.
+ * This includes listing patients, viewing patient details, adding, updating, and deleting patient records.
+ */
 @Slf4j
 @Controller
 public class ClientController {
@@ -39,6 +43,12 @@ public class ClientController {
     private TokenManager tokenManager;
     private HttpHeaders headers = new HttpHeaders();
 
+    /**
+     * Displays a list of all patients.
+     * @param model The Model object to pass data to the view.
+     * @param request The HttpServletRequest object to read the HTTP request.
+     * @return The view name of the patient list page.
+     */
     @GetMapping("/patients")
     public String patientList(Model model, HttpServletRequest request){
         tokenManager.addTokenToHeaders(request, headers);
@@ -48,6 +58,13 @@ public class ClientController {
         return "patients/list";
     }
 
+    /**
+     * Displays detailed information for a specific patient.
+     * @param id The patient's unique identifier.
+     * @param model The Model object to pass data to the view.
+     * @param request The HttpServletRequest object to read the HTTP request.
+     * @return The view name of the patient details page.
+     */
     @GetMapping("/patients/{id}")
     public String checkPatient(@PathVariable String id, Model model, HttpServletRequest request){
         tokenManager.addTokenToHeaders(request, headers);
@@ -62,6 +79,12 @@ public class ClientController {
         return "patients/patient";
     }
 
+    /**
+     * Directs to the form to add a new patient.
+     * @param model The Model object to pass data to the view.
+     * @param request The HttpServletRequest object to read the HTTP request.
+     * @return The view name for adding a patient.
+     */
     @GetMapping("/patients/add")
     public String addPatient(Model model, HttpServletRequest request){
         log.info("Redirected to add patient page");
@@ -71,6 +94,14 @@ public class ClientController {
         return "patients/add";
     }
 
+    /**
+     * Validates and saves a new or updated patient record.
+     * @param patientBean The patient data from the form.
+     * @param result BindingResult that captures validation errors.
+     * @param redirectAttributes Attributes for redirect scenarios.
+     * @param request The HttpServletRequest object to read the HTTP request.
+     * @return Redirects to the patient list view if successful, or back to the form if there are validation errors.
+     */
     @PostMapping("/patients/validate")
     public String validateAddedPatient(
             @Valid PatientBean patientBean,
@@ -95,6 +126,13 @@ public class ClientController {
         return "redirect:/patients";
     }
 
+    /**
+     * Directs to the form for editing an existing patient record.
+     * @param id The unique identifier of the patient to edit.
+     * @param model The Model object to pass data to the view.
+     * @param request The HttpServletRequest object to read the HTTP request.
+     * @return The view name for adding/editing a patient, reused the add patient view.
+     */
     @GetMapping("/patients/edit/{id}")
     public String editPatient(@PathVariable String id, Model model, HttpServletRequest request){
         log.info("Redirected to edit patient page");
@@ -104,6 +142,13 @@ public class ClientController {
         return "patients/add";
     }
 
+    /**
+     * Handles the request to delete a patient record.
+     * @param id The unique identifier of the patient to delete.
+     * @param model The Model object to pass data to the view.
+     * @param request The HttpServletRequest object to read the HTTP request.
+     * @return Redirects to the patient list view after deletion.
+     */
     @GetMapping("/patients/delete/{id}")
     public String deletePatient(@PathVariable String id, Model model, HttpServletRequest request){
         tokenManager.addTokenToHeaders(request, headers);

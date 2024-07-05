@@ -7,9 +7,12 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-/*
-* L'annotation   @EnableFeignClients  demande à Feign de scanner le package "com.clientui"
-*   pour rechercher des classes qui se déclarent clients Feign. */
+
+/**
+ * The entry point of the Client UI Spring Boot application.
+ * This application is configured to use Feign clients for inter-service communication
+ * and explicitly disables DataSource auto-configuration as it does not directly manage a database.
+ */
 @EnableFeignClients("com.clientui")
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class ClientUiApplication {

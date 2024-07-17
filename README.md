@@ -72,3 +72,13 @@ Here are several recommendations for implementing Green Code practices in this p
 
 ## Contribution
 We encourage all team members to contribute to the implementation of these Green Code practices. If you have additional ideas or suggestions for improvement, please feel free to share them!
+
+## Architecture
+| Name                | Port | Definition                                                                                         |
+|---------------------|------|----------------------------------------------------------------------------------------------------|
+| **Client UI**       | 9004 | The user interface for healthcare professionals to access and interact with patient data and assessments.   |
+| **Gateway**         | 9002 | Routes requests from the client UI to the appropriate backend microservices. Takes care of authentication and authorization   |
+| **Patients Service**| 9001 | Microservice connected to a MariaDB database to manage patient registrations and records.          |
+| **Notes Service**   | 9000 | Microservice interacting with MongoDB to handle medical notes associated with patients.            |
+| **Health Risk Service** | 9003 | Provides assessments of health risks based on patient data processed through the application. No persisted data     |
+

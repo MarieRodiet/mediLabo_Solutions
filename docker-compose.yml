@@ -33,6 +33,18 @@ services:
     networks:
       - internal
 
+  client-ui:
+    build:
+      context: ./client-ui
+      dockerfile: Dockerfile
+    container_name: client-ui
+    restart: on-failure
+    ports:
+      - "9004:9004"
+    depends_on:
+      - gateway
+    networks:
+      - internal
 
   patientsm:
     build:

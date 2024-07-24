@@ -82,3 +82,15 @@ We encourage all team members to contribute to the implementation of these Green
 | **Notes Service**   | 9000 | Microservice interacting with MongoDB to handle medical notes associated with patients.            |
 | **Health Risk Service** | 9003 | Provides assessments of health risks based on patient data processed through the application. No persisted data     |
 
+![alt text](architecture.png)
+
+## Security
+
+1. The user enters their email address and password on the client's login page. The POST request is then sent to the gateway with this data.
+
+2. The gateway checks if there is a match with the user pre-registered at its initialization.
+
+3. The client receives a 403 error if the authentication failed or a token if it succeeded.
+
+4. The client stores the token in a cookie, which will be inserted into the headers of all requests to the microservices secured by the gateway. The token serves as proof of the user's identity and authorization to access secure content.
+![alt text](security.png)
